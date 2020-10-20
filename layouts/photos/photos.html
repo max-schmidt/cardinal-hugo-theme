@@ -1,0 +1,56 @@
+{{define "style"}}
+        {{$cssoptions := (dict "targetPath" "photos.css" "outputStyle" "compressed")}}
+        {{$photosCSS := resources.Get "style/photos.scss" | resources.ExecuteAsTemplate "style.photos.scss" . | toCSS $cssoptions | postCSS | fingerprint}}
+        <link rel="stylesheet" href="{{$photosCSS.Permalink}}" integrity="{{$photosCSS.Data.Integrity}}">
+{{end}}
+{{define "main"}}
+            <!-- Main Content -->
+            <main>   
+                <h1 class="heading">{{.Title}}</h1>
+                <section class="cards">
+                    {{range sort .Pages "Title" "desc"}}
+                    <article class="cards-item"> 
+                        <div class="card">                            
+                            <a href='{{printf "#photo-%s" .File.ContentBaseName}}'><div class="card-image">
+                                <!-- Tumbnails (values based on screen width) -->
+                                <picture>
+                                    <source media="(min-width: 2560px)" 
+                                        srcset='{{printf "%s/%s" .File.ContentBaseName (replaceRE "(.+)(\\.\\w+)" "$1--900$2" .Params.image)}}'>
+                                    <!-- For High DPI -->
+                                    <source media="(min-width: 1280px) and (min-resolution: 180dpi), screen and (min-width: 1280px) and (min-device-pixel-ratio: 2)" 
+                                        srcset='{{printf "%s/%s" .File.ContentBaseName (replaceRE "(.+)(\\.\\w+)" "$1--900$2" .Params.image)}}'>
+                                    <img src='{{printf "%s/%s" .File.ContentBaseName (replaceRE "(.+)(\\.\\w+)" "$1--600$2" .Params.image)}}' alt="Thumbnail Image">
+                                </picture>
+                            </div></a>
+                            <div class="card-content">
+                                <div class="card-text">
+                                    <span>
+                                        <span class="left-text"><svg class="icon" viewBox="0 0 24 24"> <title>Ort</title> <use href="#location" xlink:href="#location"/></svg> {{.Params.location}} </span>
+                                        <span class="left-text"><svg class="icon" viewBox="0 0 24 24"> <title>Datum</title> <use href="#calendar" xlink:href="#calendar"/></svg> {{index $.Site.Data.month_de (printf "%d" .Date.Month)}} {{.Date.Year}} </span>
+                                    </span>
+                                    <span class="right-text">
+                                        {{partial (printf "licenses/%s.html" .Params.license) .}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    {{end}}
+                </section>               
+            </main>
+        <!-- lightbox container hidden with CSS -->
+        {{range sort .Pages "Title" "desc"}}        
+            <!-- anchor #close do not exist, so lightbox closes and page position remains  -->
+            <a href="#close" class="lightbox" id='{{printf "photo-%s" .File.ContentBaseName}}'><div>
+                <!-- Full-width Images (values based on image size) -->
+                <picture>
+                    <source media="(min-width: 1500px)" 
+                        srcset='{{printf "%s/%s" .File.ContentBaseName (replaceRE "(.+)(\\.\\w+)" "$1--3000$2" .Params.image)}}' loading="lazy">
+                    <!-- For High DPI -->
+                    <source media="(min-width: 1000px) and (min-resolution: 180dpi), screen and (min-width: 1000px) and (min-device-pixel-ratio: 2)" 
+                        srcset='{{printf "%s/%s" .File.ContentBaseName (replaceRE "(.+)(\\.\\w+)" "$1--3000$2" .Params.image)}}' loading="lazy">
+                    <img src='{{printf "%s/%s" .File.ContentBaseName (replaceRE "(.+)(\\.\\w+)" "$1--1500$2" .Params.image)}}' loading="lazy" alt="Image">
+                </picture>   
+            </div></a>
+        {{end}}
+{{end}}

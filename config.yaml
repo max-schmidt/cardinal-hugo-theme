@@ -1,0 +1,22 @@
+# Theme settings
+params:
+  # Colors
+  primary_color: "#8E1515"
+  dark_color: "#5C0D0D"
+  grey_dark: "#787878"
+  grey_light: "#A0A0A0"
+  text_color: white
+  # Website author/ owner
+  author:
+  # Site exist since (for copyright info)
+  siteSince:
+  # Meta description for the whole website
+  description:
+
+# Menu
+# Add Home/ About Me entry
+menu:
+  main:
+      - Name: "About Me"
+        URL: "/"
+        Weight: -1

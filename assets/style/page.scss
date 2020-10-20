@@ -1,0 +1,13 @@
+{{partial "style/colors.html" .}}
+@import '_variables';
+@import '_style';
+@import '_header';
+@import '_footer';
+
+h1 {
+    @extend .heading;
+}
+
+h2 {
+    @extend .sub-heading;
+}

@@ -1,0 +1,58 @@
+{{- define "style" -}}
+        {{$cssoptions := (dict "targetPath" "project-page.css" "outputStyle" "compressed")}}
+        {{$project_pageCSS := resources.Get "style/project-page.scss" | resources.ExecuteAsTemplate "style.project-page.scss" . | toCSS $cssoptions | postCSS | fingerprint}}
+        <link rel="stylesheet" href="{{$project_pageCSS.Permalink}}" integrity="{{$project_pageCSS.Data.Integrity}}">
+{{- end -}}
+{{define "main"}}
+            <!-- Main Content -->
+            <main>  
+                <div class="headline">
+                    <h1 class="heading">{{.Title}}</h1>
+                    <p class="year">{{if .Params.last_year}}
+                                        {{if .Params.first_year}}
+                                            {{if (sub .Params.last_year .Params.first_year)}}
+                                                {{.Params.first_year}} - {{.Params.last_year}}
+                                            {{else}}
+                                                {{.Params.last_year}}
+                                            {{end}}
+                                        {{else}}
+                                            {{.Params.last_year}}
+                                        {{end}}
+                                    {{end}}</p>
+                </div>
+                <div class="overlay"><!--Overlay--></div>
+                <div class="image">
+                    <!-- Full-width Images (values based on image size) -->
+                    <picture>
+                        <source media="(min-width: 1500px)" 
+                            srcset='{{replaceRE "(.+)(\\.\\w+)" "$1--3000$2" .Params.image}}'>
+                        <!-- For High DPI -->
+                        <source media="(min-width: 1000px) and (min-resolution: 180dpi), screen and (min-width: 1000px) and (min-device-pixel-ratio: 2)" 
+                            srcset='{{replaceRE "(.+)(\\.\\w+)" "$1--3000$2" .Params.image}}'>
+                        <img src='{{replaceRE "(.+)(\\.\\w+)" "$1--1500$2" .Params.image}}' alt="Hero Image">
+                    </picture>
+                </div>
+                <section class="content">
+                    <div class="meta">
+                        {{if .Params.github}}
+                        <div class="repo"> 
+                            <a class="github-link" target="_blank" rel="noopener noreferrer" href="{{.Params.github}}">Auf GitHub ansehen<svg class="github" viewBox="0 0 24 23.4076"> <use href="#github" xlink:href="#github"/></svg></a>
+                        </div>
+                        {{end}}
+                        {{if .Params.dev}}
+                        <div class="technologies">
+                            <p>Technologien</p>
+                            <span>
+                            {{range .Params.dev}}
+                                <svg class="dev-icon" viewBox="0 0 128 128"> <title>{{.}}</title> <use href="#{{lower .}}" xlink:href="#{{lower .}}"/></svg>
+                            {{end}}
+                            </span>
+                        </div>
+                        {{end}}
+                    </div>
+                    <div class="text">
+                        {{.Content}}
+                    </div>               
+                </section>
+            </main>
+{{end}}

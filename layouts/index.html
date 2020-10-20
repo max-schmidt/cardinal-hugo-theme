@@ -1,0 +1,27 @@
+{{define "style"}}
+        {{$cssoptions := (dict "targetPath" "index.css" "outputStyle" "compressed")}}
+        {{$indexCSS := resources.Get "style/index.scss" | resources.ExecuteAsTemplate "style.index.scss" . | toCSS $cssoptions | postCSS | fingerprint}}
+        <link rel="stylesheet" href="{{$indexCSS.Permalink}}" integrity="{{$indexCSS.Data.Integrity}}">
+{{end}}
+{{define "main"}}         
+            <!-- Main Content -->
+            <main>   
+                <div class="about-left">
+                    <!-- Logo / Portrait -->
+                    <svg class="logo-big" viewBox="0 0 1000 1000"> <use href="#vector-logo" xlink:href="#vector-logo"/></svg>
+                </div>
+                <div class="about-right">
+                    <!-- Name Headline -->
+                    <h1 class="about-name">{{.Params.name}}</h1>
+                    <!-- About Me Text -->
+                    <p class="about">
+                        {{.Content}}
+                    </p>
+                    <!-- Social Links -->
+                    <p>
+                        {{if.Params.email}}<a class="social" {{replaceRE "\"" "" (printf "href='m&#97;&#x69;&#x6C;t&#111;:%q'" .Params.email) | safeHTMLAttr}} title="E-Mail"><span><svg viewBox="0 0 24 18"> <use href="#email" xlink:href="#email"/></svg></span></a>{{end}}
+                        {{if.Params.github}}<a class="social" target="_blank" rel="noopener noreferrer" href="{{.Params.github}}" title="GitHub"><span><svg viewBox="0 0 24 23.4076"> <use href="#github" xlink:href="#github"/></svg></span></a>{{end}}
+                    </p>
+                </div>   
+            </main>
+{{end}}

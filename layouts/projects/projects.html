@@ -1,0 +1,53 @@
+{{define "style"}}
+        {{$cssoptions := (dict "targetPath" "projects.css" "outputStyle" "compressed")}}
+        {{$projectsCSS := resources.Get "style/projects.scss" | resources.ExecuteAsTemplate "style.projects.scss" . | toCSS $cssoptions | postCSS | fingerprint}}
+        <link rel="stylesheet" href="{{$projectsCSS.Permalink}}" integrity="{{$projectsCSS.Data.Integrity}}">
+{{end}}
+{{define "main"}}
+            <!-- Main Content -->
+            <main>   
+                <h1 class="heading">{{.Title}}</h1>
+                <section class="cards">
+                    {{range sort .Pages ".Params.last_year" "desc"}}
+                    <article class="cards-item">
+                        <div class="card">
+                            <div class="card-image">
+                                <!-- Tumbnails (values based on screen width) -->
+                                <picture>
+                                    <source media="(min-width: 2560px)" 
+                                        srcset='{{printf "%s/%s" .File.ContentBaseName (replaceRE "(.+)(\\.\\w+)" "$1--900$2" .Params.image)}}'>
+                                    <!-- For High DPI -->
+                                    <source media="(min-width: 1280px) and (min-resolution: 180dpi), screen and (min-width: 1280px) and (min-device-pixel-ratio: 2)" 
+                                        srcset='{{printf "%s/%s" .File.ContentBaseName (replaceRE "(.+)(\\.\\w+)" "$1--900$2" .Params.image)}}'>
+                                    <img src='{{printf "%s/%s" .File.ContentBaseName (replaceRE "(.+)(\\.\\w+)" "$1--600$2" .Params.image)}}' alt="Thumbnail Image">
+                                </picture>
+                            </div>
+                            <div class="card-content">
+                                <div class="card-headline">
+                                    <h2 class="card-title"><a href="{{.Permalink}}">{{.Title}}</a></h2>
+                                    <span class="right-icons">
+                                    {{range .Params.dev}}
+                                        <svg class="dev-icon" viewBox="0 0 128 128"> <title>{{.}}</title> <use href="#{{lower .}}" xlink:href="#{{lower .}}"/></svg>
+                                    {{end}}
+                                    </span>
+                                </div>
+                                <p class="card-meta">{{if .Params.last_year}}
+                                                        {{if .Params.first_year}}
+                                                            {{if (sub .Params.last_year .Params.first_year)}}
+                                                                {{.Params.first_year}} - {{.Params.last_year}}
+                                                            {{else}}
+                                                                {{.Params.last_year}}
+                                                            {{end}}
+                                                        {{else}}
+                                                            {{.Params.last_year}}
+                                                        {{end}}
+                                                    {{end}}</p>
+                                <p class="card-text">{{.Summary}}</p>
+                                <a href="{{.Permalink}}" title="{{.Title}}"><button class="btn">weiterlesen →</button></a>
+                            </div>
+                        </div>
+                    </article>
+                    {{end}}
+                </section>
+            </main>
+{{end}}

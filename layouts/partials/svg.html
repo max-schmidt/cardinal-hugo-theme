@@ -1,0 +1,27 @@
+        <!-- Embeded SVG Images -->
+        <svg style="display: none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Logo as SVG -->
+            {{- partial "vector-logo.html" . -}}
+            <!-- Icons -->
+            {{- if.Params.email -}} {{partial "icons/email.html" .}} {{- end -}}
+            {{- if.Params.github -}} {{partial "icons/github.html" .}} {{- end -}}
+            {{- if (eq .Page.Type "photos") -}} 
+                {{partial "icons/location.html" .}} 
+                {{partial "icons/calendar.html" .}} 
+            {{- end -}}
+            <!-- Devicons -->
+            {{- range .Pages -}}
+                {{- range .Params.dev -}}
+                    {{partial (printf "devicons/%s.html" (lower .)) .}}
+                {{- end -}}
+            {{- end -}}
+            {{- if and (eq .Page.Type "projects") (.IsPage) -}}
+                {{- range .Params.dev -}}
+                    {{partial (printf "devicons/%s.html" (lower .)) .}}
+                {{- end -}}            
+            {{- end -}}
+            <!-- License Icons -->
+            {{- range .Pages -}}
+                {{- if.Params.license -}} {{partial (printf "licenses/%s-logo.html" .Params.license) (lower .)}} {{- end -}}
+            {{- end -}}
+        </svg>

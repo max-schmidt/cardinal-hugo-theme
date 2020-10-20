@@ -1,0 +1,14 @@
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="theme-color" content="{{.Site.Params.primary_color}}">
+        <meta name="author" content="{{.Site.Params.author}}">
+        <meta name="description" content="{{.Site.Params.description}}">
+        <title>{{if and (eq .Page.Type "projects") (.IsPage)}}{{.Title}} Projekt{{else}}{{.Title}}{{end}} - {{.Site.Title}}</title>
+        <!-- Icons -->
+        <!-- For old IE create favicon.ico with 16x16, 32x32 in root directory but do not declare here-->
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <!-- Chrome Touch Icon 192x192-->
+        <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
+        <!-- Apple Touch Icon 180x180-->
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">

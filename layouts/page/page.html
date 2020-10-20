@@ -1,0 +1,13 @@
+{{define "style"}}
+        {{$cssoptions := (dict "targetPath" "page.css" "outputStyle" "compressed")}}
+        {{$pageCSS := resources.Get "style/page.scss" | resources.ExecuteAsTemplate "style.page.scss" . | toCSS $cssoptions | postCSS | fingerprint}}
+        <link rel="stylesheet" href="{{$pageCSS.Permalink}}" integrity="{{$pageCSS.Data.Integrity}}">
+{{end}}
+{{define "main"}}
+            <!-- Main Content -->
+            <main>   
+                <article>
+                    {{.Content}}
+                </article>
+            </main>
+{{end}}

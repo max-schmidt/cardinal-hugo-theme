@@ -1,0 +1,20 @@
+            <!-- Header -->
+            <header>
+                <!-- Logo -->
+                <a class="logo-small" href="/" title="Home"><span><svg viewBox="0 0 1000 1000"> <use href="#vector-logo" xlink:href="#vector-logo"/></svg></span></a>
+                <!-- Navigation -->
+                <nav>                    
+                    <input type="checkbox" id="menuButton">
+                    <label for="menuButton" class="menuButton">
+                        <span class="line"></span>
+                        <span class="line"></span>
+                        <span class="line"></span>
+                    </label>                    
+                    <ul>
+                        {{$currentPage := .}}
+                        {{- range .Site.Menus.main -}}                        
+                        <li><a {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .)}}class="current"{{end}} href="{{.URL}}">{{ .Name }}</a></li>
+                        {{end}}
+                    </ul>
+                </nav>
+            </header>
