@@ -51,3 +51,7 @@ main {
         color: darken($text-color, $amount: 25%);
     }
 }
+
+.svg-block {
+    display: none;
+}
