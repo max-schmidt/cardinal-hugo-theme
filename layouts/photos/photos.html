@@ -29,7 +29,12 @@
                                         <span class="left-text"><svg class="icon" viewBox="0 0 24 24"> <title>Datum</title> <use href="#calendar" xlink:href="#calendar"/></svg> {{index $.Site.Data.month_de (printf "%d" .Date.Month)}} {{.Date.Year}} </span>
                                     </span>
                                     <span class="right-text">
-                                        {{partial (printf "licenses/%s.html" .Params.license) .}}
+                                        <span>
+                                            {{partial (printf "licenses/%s.html" .Params.license) .}}
+                                        </span>
+                                        <span>
+                                            <a title="Bild herunterladen" download target="_blank" href='{{printf "%s/%s" .File.ContentBaseName (replaceRE "(.+)(\\.\\w+)" "$1--3000$2" .Params.image)}}'> <svg class="icon" viewBox="0 0 24 24"> <title>Bild herunterladen</title> <use href="#download" xlink:href="#download"/></svg></a>
+                                        </span>
                                     </span>
                                 </div>
                             </div>
