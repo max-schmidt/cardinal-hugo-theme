@@ -1,8 +1,8 @@
 name: Cardinal
 license: MIT
-licenselink: https://github.com/yourname/yourtheme/blob/master/LICENSE
-description: 
-homepage: http://example.com/
+licenselink: https://github.com/max-schmidt/cardinal-hugo-theme/blob/main/LICENSE
+description: A Hugo theme for personal websites.
+homepage: https://github.com/max-schmidt/cardinal-hugo-theme
 tags:
 features:
 min_version: 0.74
