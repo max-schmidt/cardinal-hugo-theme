@@ -134,6 +134,10 @@ main {
             @media screen and (min-width: $break-tablet+1) {
                 padding: 1em 2em 0 1em;
             }
+            img {
+                max-width: 100%;
+                object-fit: cover;
+            }
         }
     }
 }
